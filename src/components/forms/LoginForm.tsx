@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, SetStateAction, useState, useEffect } from 'react';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import { Button } from '../Button';
 import { ButtonGoogle } from '../ButtonGoogle';
@@ -9,7 +11,6 @@ import { ButtonGoogle } from '../ButtonGoogle';
 import { LoginFormSchema, loginFormZodSchema } from '../../schemas/LoginFormSchema';
 
 import { api } from '../../services/api';
-import { useNavigate } from 'react-router-dom';
 import { signIn } from '../../services/auth.service';
 
 type Props = {
@@ -18,6 +19,9 @@ type Props = {
 
 export function LoginForm({ setChangeTypeForm }: Props) {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+
+    const token = searchParams.get('token');
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -35,13 +39,12 @@ export function LoginForm({ setChangeTypeForm }: Props) {
                 navigate("/users")
             }
             setIsLoading(false);
-        } catch(error) {
-            console.log('Erro no login:', error);
+        } catch(error: any) {
+            alert(`Ops... ${error.response.data.message}`);
             setIsLoading(false);
         } finally {
             setIsLoading(false);
         }
-
     }
 
     async function validateToken(token: string) {
@@ -52,7 +55,7 @@ export function LoginForm({ setChangeTypeForm }: Props) {
             });
             if(data) {
                 window.localStorage.setItem('token', data.access_token);
-                navigate("/application")
+                navigate("/users")
             } else {
                 window.localStorage.removeItem('token');
             }
@@ -70,7 +73,13 @@ export function LoginForm({ setChangeTypeForm }: Props) {
         if(token) {
             validateToken(token);
         }
-    }, [])
+    }, []);
+
+    useEffect(() => {
+        if(token) {
+            validateToken(token);
+        }
+    }, [token]);
 
     return(
         <div className="flex flex-col items-center justify-center py-5 px-8 h-screen w-full lg:w-1/2 bg-white">
@@ -129,12 +138,14 @@ export function LoginForm({ setChangeTypeForm }: Props) {
                         type='submit'
                         label="Entrar na conta" 
                         disabled={isLoading}
-                    />
-                    
-                    <ButtonGoogle />
+                    />                    
                 </div>
             </form>
-            <div className="flex justify-center gap-1 mt-10">
+
+            <div className='w-full md:w-[500px] lg:w-[400px] my-4'>
+                <ButtonGoogle />
+            </div>
+            <div className="flex justify-center gap-1 mt-2">
                 <span className="font-medium">Não tem uma conta?</span>
                 <a className="cursor-pointer font-normal text-green-500" onClick={() => setChangeTypeForm("register")}>Cadastre-se</a>
             </div>

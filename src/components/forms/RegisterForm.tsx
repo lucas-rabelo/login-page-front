@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Eye, EyeSlash } from '@phosphor-icons/react';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -22,7 +23,7 @@ export function RegisterForm({ setChangeTypeForm }: Props) {
     const [showConfirmedPassword, setShowConfirmedPassword] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const { register, handleSubmit, formState: { errors } } = useForm<RegisterFormSchema>({
+    const { register, handleSubmit, getValues, formState: { errors } } = useForm<RegisterFormSchema>({
         resolver: zodResolver(registerFormZodSchema),
     });
 
@@ -33,7 +34,7 @@ export function RegisterForm({ setChangeTypeForm }: Props) {
                 name: props.name,
                 birthDate: props.birthDate,
                 email: props.email,
-                role: null,
+                role: 'user',
                 password: props.password
             }
 
@@ -43,9 +44,9 @@ export function RegisterForm({ setChangeTypeForm }: Props) {
                 navigate("/users")
             }
             setIsLoading(false);
-        } catch(error) {
-            console.log('Erro no login:', error);
+        } catch(error: any) {
             setIsLoading(false);
+            alert(`Ops... ${error.response.data.message}`);
         } finally {
             setIsLoading(false);
         }
@@ -138,18 +139,17 @@ export function RegisterForm({ setChangeTypeForm }: Props) {
                         </div>
                     </div>
                 </div>
-                <div className="flex flex-col gap-4">
-                    <Button 
-                        type='submit'
-                        label="Entrar na conta" 
-                        disabled={isLoading}
-                    />
-                    
-                    <ButtonGoogle 
-                        label="Cadastro com sua conta Google"
-                    />
-                </div>
+                <Button 
+                    onClick={() => onSubmit(getValues())}
+                    label="Criar conta" 
+                    disabled={isLoading}
+                />
             </form>
+            <div className='w-full md:w-[500px] lg:w-[450px] my-4'>
+                <ButtonGoogle 
+                    label="Cadastro com sua conta Google"
+                />
+            </div>
             <div className="flex justify-center gap-1 mt-5">
                 <span className="font-medium">Já tenho uma conta</span>
                 <a className="cursor-pointer font-normal text-green-500" onClick={() => setChangeTypeForm("login")}>Faça login</a>
