@@ -1,5 +1,6 @@
 import { Pencil, Trash } from "@phosphor-icons/react";
 import { ButtonSecondary } from "../ButtonSecondary";
+import type { ReadUserDto } from "../../types/user";
 
 type Props = {
     data: ReadUserDto[];
