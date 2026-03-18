@@ -1,3 +1,4 @@
+import type { CreateUserDto } from '../types/user';
 import { api } from './api';
 
 export async function signIn(email: string, password: string) {
