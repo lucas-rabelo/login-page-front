@@ -1,13 +1,11 @@
 import {
   Controller,
-  FieldValues,
-  type Control,
-  type Path,
+  FieldValues
 } from "react-hook-form";
+import { Container } from "../Container";
 import { Error } from "../Error";
 import { Input } from "../Input";
 import { Label } from "../Label";
-import { Container } from "../Container";
 
 import type { InputFormProps } from "./types";
 
@@ -28,8 +26,8 @@ export function InputForm<T extends FieldValues>({
         control={control}
         render={({ field: { onChange, value } }) => (
           <Input
-            onChange={onChange} 
-            value={value} 
+            onChange={onChange}
+            value={value}
             {...props}
           />
         )}

@@ -1,6 +1,6 @@
 import { Pencil, Trash } from "@phosphor-icons/react";
 
-import { ButtonSecondary } from "../ButtonSecondary";
+import { ButtonSecondary } from "../../ButtonSecondary";
 
 import type { UserListProps } from "./types";
 

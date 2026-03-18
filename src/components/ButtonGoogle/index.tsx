@@ -1,8 +1,8 @@
 import { SpinnerGap } from "@phosphor-icons/react";
 import { useState } from "react";
 
-import GoogleIcon from "../assets/google.svg";
-import { API_GOOGLE_AUTH_URL } from "../utils/constants";
+import GoogleIcon from "../../assets/google.svg";
+import { API_GOOGLE_AUTH_URL } from "../../utils/constants";
 
 import type { ButtonGoogleProps } from "./types";
 

@@ -1,7 +1,7 @@
-import { Controller, type Control, FieldValues, type Path } from "react-hook-form";
+import { Controller, FieldValues } from "react-hook-form";
+import { Container } from "../Container";
 import { Error } from "../Error";
 import { Label } from "../Label";
-import { Container } from "../Container";
 import { Select } from "../Select";
 
 import type { SelectFormProps } from "./types";

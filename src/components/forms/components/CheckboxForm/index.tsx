@@ -1,4 +1,4 @@
-import { Controller, type Control, type FieldValues, type Path } from "react-hook-form";
+import { Controller, type FieldValues } from "react-hook-form";
 import { Checkbox } from "../Checkbox";
 
 import type { CheckboxFormProps } from "./types";
@@ -8,12 +8,12 @@ export function CheckboxForm<T extends FieldValues>({
   name,
   label,
 }: CheckboxFormProps<T>) {
-  return(
-    <Controller 
+  return (
+    <Controller
       control={control}
       name={name}
-      render={({}) => (
-        <Checkbox 
+      render={({ }) => (
+        <Checkbox
           label={label}
         />
       )}

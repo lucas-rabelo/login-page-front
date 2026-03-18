@@ -1,4 +1,4 @@
-import type { ReadUserDto } from "../../types/user";
+import type { ReadUserDto } from "../../../types/user";
 
 export type UserListProps = {
   data: ReadUserDto[];
