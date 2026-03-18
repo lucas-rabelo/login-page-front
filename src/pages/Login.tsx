@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { useParams } from "react-router-dom";
 
 import { Hero } from "../components/layout/Hero";
@@ -7,6 +7,8 @@ import { LoginForm } from "../components/forms/LoginForm";
 import { RegisterForm } from "../components/forms/RegisterForm";
 import { ForgetForm } from "../components/forms/ForgetForm";
 import { ResetForm } from "../components/forms/ResetForm";
+import { TYPE_FORM } from "../utils/constants";
+import type { FormTypeProps } from "../types/form";
 
 type Params = {
     token?: string;
@@ -16,21 +18,25 @@ export function Login() {
     const params = useParams<Params>();
     const token = params.token;
 
-    const [formTypeShow, setFormTypeShow] = useState<"login" | "register" | "forget" | "reset">("login");
+    const [formTypeShow, setFormTypeShow] = useState<FormTypeProps>(TYPE_FORM.LOGIN);
 
     useEffect(() => {
         if(token) {
-            setFormTypeShow("reset");
+            setFormTypeShow(TYPE_FORM.RESET);
         }
-    }, [token])
+    }, [token]);
+
+    const Form: Record<FormTypeProps, ReactNode> = {
+        [TYPE_FORM.LOGIN]: <LoginForm setChangeTypeForm={setFormTypeShow} />,
+        [TYPE_FORM.REGISTER]: <RegisterForm setChangeTypeForm={setFormTypeShow} />,
+        [TYPE_FORM.FORGET]: <ForgetForm setChangeTypeForm={setFormTypeShow} />,
+        [TYPE_FORM.RESET]: <ResetForm token={token} setChangeTypeForm={setFormTypeShow} />
+    };
 
     return(
         <main className="flex-1 flex flex-col lg:flex-row items-center justify-center h-screen w-full">
             <Hero />
-            {formTypeShow === 'login' ? <LoginForm setChangeTypeForm={setFormTypeShow} /> : null}
-            {formTypeShow === 'register' ? <RegisterForm setChangeTypeForm={setFormTypeShow} /> : null}
-            {formTypeShow === 'forget' ? <ForgetForm setChangeTypeForm={setFormTypeShow} /> : null}
-            {formTypeShow === 'reset' ? <ResetForm token={token} setChangeTypeForm={setFormTypeShow} /> : null}
+            {Form[formTypeShow]}
         </main>
     );
 }

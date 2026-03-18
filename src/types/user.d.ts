@@ -1,4 +1,4 @@
-type CreateUserDto = {
+export type CreateUserDto = {
     name: string;
     email: string;
     role: string | null;
@@ -6,9 +6,11 @@ type CreateUserDto = {
     birthDate: string;
 }
 
-type UpdateUserDto = Partial<CreateUserDto>;
+export type UpdateUserDto = Partial<CreateUserDto> & {
+    uuid: string;
+};
 
-type ReadUserDto = Partial<CreateUserDto> & {
+export type ReadUserDto = Partial<CreateUserDto> & {
     uuid: string;
     createdAt: string;
     updatedAt: string;
