@@ -13,6 +13,9 @@ import { api } from "../../../services/api";
 import { ButtonInput } from "../components/ButtonInput";
 import { InputForm } from "../components/InputForm";
 
+import { ContainerForm } from "../components/ContainerForm";
+import { Form } from "../components/Form";
+import { TitleForm } from "../components/TitleForm";
 import type { ResetFormProps } from "./types";
 
 export function ResetForm({ token, setChangeTypeForm }: ResetFormProps) {
@@ -55,64 +58,54 @@ export function ResetForm({ token, setChangeTypeForm }: ResetFormProps) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center py-5 px-8 h-screen w-full lg:w-1/2 bg-white">
-      <form
+    <ContainerForm>
+      <Form
         onSubmit={handleSubmit((data, event) => {
           event?.preventDefault();
           onSubmit(data);
         })}
-        className="flex flex-col gap-6 w-full md:w-[500px] lg:w-[400px]"
+        gap={6}
       >
-        <div className="flex flex-col gap-1">
-          <h3 className="font-medium text-xl">Mudar senha</h3>
-          <h1 className="font-bold text-2xl">
-            Mude sua senha para poder acessar o aplicativo
-          </h1>
-        </div>
-        <div className="flex flex-col gap-6">
-          <InputForm
-            name="password"
-            control={control}
-            type={showPassword ? "text" : "password"}
-            label="Senha"
-            placeholder="Senha"
-            error={errors?.password?.message}
-            isPasswordInput
-          >
-            <ButtonInput
-              actionValue={showPassword}
-              setAction={setShowPassword}
-            />
-          </InputForm>
-          <InputForm
-            name="confirmedPassword"
-            control={control}
-            type={showPassword ? "text" : "password"}
-            label="Confirme a senha"
-            placeholder="Confirme a senha"
-            error={errors?.confirmedPassword?.message}
-            isPasswordInput
-          >
-            <ButtonInput
-              actionValue={showConfirmedPassword}
-              setAction={setShowConfirmedPassword}
-            />
-          </InputForm>
-        </div>
-        <div className="flex flex-col gap-4">
-          <Button type="submit" label="Enviar" disabled={isLoading} />
-        </div>
-      </form>
-      <div className="flex justify-center gap-1 mt-10">
-        <span className="font-medium">Já tenho uma conta</span>
+        <TitleForm
+          title="Mude sua senha para poder acessar o aplicativo"
+          subtitle="Mudar senha"
+        />
+        <InputForm
+          name="password"
+          control={control}
+          type={showPassword ? "text" : "password"}
+          label="Senha"
+          placeholder="Senha"
+          error={errors?.password?.message}
+          isPasswordInput
+        >
+          <ButtonInput actionValue={showPassword} setAction={setShowPassword} />
+        </InputForm>
+        <InputForm
+          name="confirmedPassword"
+          control={control}
+          type={showPassword ? "text" : "password"}
+          label="Confirme a senha"
+          placeholder="Confirme a senha"
+          error={errors?.confirmedPassword?.message}
+          isPasswordInput
+        >
+          <ButtonInput
+            actionValue={showConfirmedPassword}
+            setAction={setShowConfirmedPassword}
+          />
+        </InputForm>
+        <Button type="submit" label="Enviar" disabled={isLoading} />
+      </Form>
+      <span className="font-medium">
+        Já tenho uma conta
         <a
-          className="font-normal text-green-500"
+          className="font-normal text-green-500 mt-10 ml-1"
           onClick={() => setChangeTypeForm("login")}
         >
           Faça login
         </a>
-      </div>
-    </div>
+      </span>
+    </ContainerForm>
   );
 }
-

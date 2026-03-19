@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { Button } from "../../Button";
-import { ButtonGoogle } from "../../ButtonGoogle";
 
 import {
   LoginFormSchema,
@@ -17,6 +16,10 @@ import { ButtonInput } from "../components/ButtonInput";
 import { CheckboxForm } from "../components/CheckboxForm";
 import { InputForm } from "../components/InputForm";
 
+import { API_GOOGLE_AUTH_URL, TYPE_FORM } from "../../../utils/constants";
+import { ContainerForm } from "../components/ContainerForm";
+import { Form } from "../components/Form";
+import { TitleForm } from "../components/TitleForm";
 import type { LoginFormProps } from "./types";
 
 export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
@@ -35,6 +38,17 @@ export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
   } = useForm<LoginFormSchema>({
     resolver: zodResolver(loginFormZodSchema),
   });
+
+  async function handleSignWithGoogle() {
+    try {
+      window.location.href = API_GOOGLE_AUTH_URL;
+    } catch (error) {
+      console.log("Erro no login:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   async function onSubmit({ email, password }: LoginFormSchema) {
     setIsLoading(true);
@@ -88,69 +102,62 @@ export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
   }, [token]);
 
   return (
-    <div className="flex flex-col items-center justify-center py-5 px-8 h-screen w-full lg:w-1/2 bg-white">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-full md:w-[500px] lg:w-[400px]"
-      >
-        <div className="flex flex-col gap-1">
-          <h3 className="font-medium text-xl">Bem vindo de volta</h3>
-          <h1 className="font-bold text-2xl">Faça login na sua conta</h1>
-        </div>
-        <div className="flex flex-col gap-6">
-          <InputForm
+    <ContainerForm>
+      <Form onSubmit={handleSubmit(onSubmit)} gap={6}>
+        <TitleForm
+          title="Faça login na sua conta"
+          subtitle="Bem vindo de volta"
+        />
+        <InputForm
+          control={control}
+          name="email"
+          type="email"
+          placeholder="exemplo@gmail.com"
+          label="E-mail"
+          error={errors?.email?.message}
+        />
+        <InputForm
+          name="password"
+          control={control}
+          type={showPassword ? "text" : "password"}
+          label="Senha"
+          placeholder="Senha"
+          error={errors?.password?.message}
+          isPasswordInput
+        >
+          <ButtonInput actionValue={showPassword} setAction={setShowPassword} />
+        </InputForm>
+        <div className="flex items-center justify-between">
+          <CheckboxForm
             control={control}
-            name="email"
-            type="email"
-            label="E-mail"
-            error={errors?.email?.message}
+            name="rememberMe"
+            label="Lembre de mim"
           />
-          <InputForm
-            name="password"
-            control={control}
-            type={showPassword ? "text" : "password"}
-            label="Senha"
-            placeholder="Senha"
-            error={errors?.password?.message}
-            isPasswordInput
+          <a
+            className="cursor-pointer font-normal text-green-500"
+            onClick={() => setChangeTypeForm("forget")}
           >
-            <ButtonInput
-              actionValue={showPassword}
-              setAction={setShowPassword}
-            />
-          </InputForm>
-          <div className="flex fle-row justify-between">
-            <CheckboxForm
-              control={control}
-              name="rememberMe"
-              label="Lembre de mim"
-            />
-            <a
-              className="cursor-pointer font-normal text-green-500"
-              onClick={() => setChangeTypeForm("forget")}
-            >
-              Esqueceu a senha?
-            </a>
-          </div>
+            Esqueceu a senha?
+          </a>
         </div>
-        <div className="flex flex-col gap-4">
-          <Button type="submit" label="Entrar na conta" disabled={isLoading} />
-        </div>
-      </form>
+        <Button type="submit" label="Entrar na conta" disabled={isLoading} />
+        <Button
+          onClick={handleSignWithGoogle}
+          label="Ou faça login com o Google"
+          isGoogleButton
+          variant="google"
+        />
+      </Form>
 
-      <div className="w-full md:w-[500px] lg:w-[400px] my-4">
-        <ButtonGoogle />
-      </div>
-      <div className="flex justify-center gap-1 mt-2">
-        <span className="font-medium">Não tem uma conta?</span>
+      <span className="font-medium mt-6">
+        Não tem uma conta?
         <a
-          className="cursor-pointer font-normal text-green-500"
-          onClick={() => setChangeTypeForm("register")}
+          className="cursor-pointer text-green-500 ml-1"
+          onClick={() => setChangeTypeForm(TYPE_FORM.REGISTER)}
         >
           Cadastre-se
         </a>
-      </div>
-    </div>
+      </span>
+    </ContainerForm>
   );
 }
-

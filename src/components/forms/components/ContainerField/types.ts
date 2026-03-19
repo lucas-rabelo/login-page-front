@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 
-export type ContainerProps = {
+export type ContainerFieldProps = {
   children: ReactNode;
   hasButton?: boolean;
 };

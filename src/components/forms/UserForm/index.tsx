@@ -8,14 +8,18 @@ import {
 
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../../services/query-client";
-import { createUser, editUser, updateUser } from "../../../services/user.service";
+import {
+  createUser,
+  editUser,
+  updateUser,
+} from "../../../services/user.service";
 import type { CreateUserDto, UpdateUserDto } from "../../../types/user";
-import { ButtonSecondary } from "../../ButtonSecondary";
 import { ButtonInput } from "../components/ButtonInput";
 import { InputForm } from "../components/InputForm";
 import { RowForm } from "../components/RowForm";
 import { SelectForm } from "../components/SelectForm";
 
+import { Button } from "../../Button";
 import type { UserFormProps } from "./types";
 
 const ROLE_OPTIONS = [
@@ -160,16 +164,17 @@ export function UserForm({ userUuid, onCancel }: UserFormProps) {
 
         <div className="w-full flex justify-end mt-4">
           <div className="flex items-center gap-4 w-1/2">
-            <ButtonSecondary
+            <Button
               label="Cancelar"
-              textColor="text-black"
-              color="bg-slate-100 border-[1px] border-slate-300"
+              textColor="black"
+              padding="medium"
               onClick={handleCancel}
               disabled={isLoading}
             />
-            <ButtonSecondary
+            <Button
               type="submit"
               label="Salvar"
+              padding="medium"
               disabled={isLoading}
             />
           </div>
@@ -178,4 +183,3 @@ export function UserForm({ userUuid, onCancel }: UserFormProps) {
     </form>
   );
 }
-

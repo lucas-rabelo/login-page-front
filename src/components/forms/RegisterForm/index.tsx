@@ -4,7 +4,6 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
 import { Button } from "../../Button";
-import { ButtonGoogle } from "../../ButtonGoogle";
 
 import {
   RegisterFormSchema,
@@ -17,6 +16,10 @@ import { ButtonInput } from "../components/ButtonInput";
 import { InputForm } from "../components/InputForm";
 import { RowForm } from "../components/RowForm";
 
+import { API_GOOGLE_AUTH_URL, TYPE_FORM } from "../../../utils/constants";
+import { ContainerForm } from "../components/ContainerForm";
+import { Form } from "../components/Form";
+import { TitleForm } from "../components/TitleForm";
 import type { RegisterFormProps } from "./types";
 
 export function RegisterForm({ setChangeTypeForm }: RegisterFormProps) {
@@ -35,6 +38,17 @@ export function RegisterForm({ setChangeTypeForm }: RegisterFormProps) {
   } = useForm<RegisterFormSchema>({
     resolver: zodResolver(registerFormZodSchema),
   });
+
+  async function handleSignWithGoogle() {
+    try {
+      window.location.href = API_GOOGLE_AUTH_URL;
+    } catch (error) {
+      console.log("Erro no login:", error);
+      setIsLoading(false);
+    } finally {
+      setIsLoading(false);
+    }
+  }
 
   async function onSubmit(props: RegisterFormSchema) {
     setIsLoading(true);
@@ -62,15 +76,9 @@ export function RegisterForm({ setChangeTypeForm }: RegisterFormProps) {
   }
 
   return (
-    <div className="flex flex-col items-center justify-center pb-12 pt-[300px] md:py-5 px-8 h-auto md:h-screen w-full lg:w-1/2 bg-white">
-      <form
-        onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col gap-4 w-full md:w-[500px] lg:w-[450px]"
-      >
-        <div className="flex flex-col gap-1">
-          <h3 className="font-medium text-xl">Bem vindo</h3>
-          <h1 className="font-bold text-2xl">Crie sua conta gratuitamente!</h1>
-        </div>
+    <ContainerForm>
+      <Form onSubmit={handleSubmit(onSubmit)}>
+        <TitleForm title="Crie sua conta gratuitamente!" subtitle="Bem vindo" />
         <div className="flex flex-col gap-3">
           <RowForm>
             <InputForm
@@ -85,7 +93,7 @@ export function RegisterForm({ setChangeTypeForm }: RegisterFormProps) {
               name="email"
               label="E-mail"
               type="email"
-              placeholder="E-mail"
+              placeholder="exemplo@gmail.com"
               error={errors?.email?.message}
             />
           </RowForm>
@@ -132,20 +140,22 @@ export function RegisterForm({ setChangeTypeForm }: RegisterFormProps) {
           label="Criar conta"
           disabled={isLoading}
         />
-      </form>
-      <div className="w-full md:w-[500px] lg:w-[450px] my-4">
-        <ButtonGoogle label="Cadastro com sua conta Google" />
-      </div>
-      <div className="flex justify-center gap-1 mt-5">
-        <span className="font-medium">Já tenho uma conta</span>
+        <Button
+          onClick={handleSignWithGoogle}
+          label="Cadastro com sua conta Google"
+          isGoogleButton
+          variant="google"
+        />
+      </Form>
+      <span className="font-medium">
+        Já tenho uma conta
         <a
-          className="cursor-pointer font-normal text-green-500"
-          onClick={() => setChangeTypeForm("login")}
+          className="cursor-pointer text-green-500 ml-1 mt-9"
+          onClick={() => setChangeTypeForm(TYPE_FORM.FORGET)}
         >
           Faça login
         </a>
-      </div>
-    </div>
+      </span>
+    </ContainerForm>
   );
 }
-

@@ -1,7 +1,6 @@
 import { Pencil, Trash } from "@phosphor-icons/react";
 
-import { ButtonSecondary } from "../../ButtonSecondary";
-
+import { PageHeader } from "../../PageHeader";
 import type { UserListProps } from "./types";
 
 export function UserList({
@@ -12,13 +11,8 @@ export function UserList({
 }: UserListProps) {
   return (
     <>
-      <div className="w-full mb-4 flex items-center justify-end">
-        <ButtonSecondary
-          label="Novo usuário"
-          size="w-[150px]"
-          onClick={onCreateNew}
-        />
-      </div>
+      <PageHeader onCreateNew={onCreateNew} />
+
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -69,20 +63,16 @@ export function UserList({
                 >
                   {value.uuid}
                 </td>
+                <td className="px-6 py-4">{value.name}</td>
+                <td className="px-6 py-4">{value.email}</td>
                 <td className="px-6 py-4">
-                  {value.name}
+                  {new Date(value.birthDate!)
+                    .toLocaleString("pt-BR", {
+                      timeZone: "UTC",
+                    })
+                    .substring(0, 10)}
                 </td>
-                <td className="px-6 py-4">
-                  {value.email}
-                </td>
-                <td className="px-6 py-4">
-                  {new Date(value.birthDate!).toLocaleString("pt-BR", {
-                    timeZone: "UTC",
-                  }).substring(0, 10)}
-                </td>
-                <td className="px-6 py-4 capitalize">
-                  {value.role}
-                </td>
+                <td className="px-6 py-4 capitalize">{value.role}</td>
               </tr>
             ))}
           </tbody>
@@ -91,4 +81,3 @@ export function UserList({
     </>
   );
 }
-
