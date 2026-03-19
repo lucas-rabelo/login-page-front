@@ -1,6 +1,6 @@
-import type { RowFormProps } from "./types";
+import type { FormRowProps } from "./types";
 
-export function RowForm({ children }: RowFormProps) {
+export function FormRow({ children }: FormRowProps) {
   return (
     <div className="flex flex-col md:flex-row md:items-center gap-3">
       {children}

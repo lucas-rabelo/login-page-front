@@ -1,19 +1,20 @@
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { Button } from "../../Button";
+import { Form } from "../components/Form";
+import { InputForm } from "../components/InputForm";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ForgetFormSchema,
   forgetFormZodSchema,
 } from "../../../schemas/ForgetFormSchema";
-import { api } from "../../../services/api";
-import { InputForm } from "../components/InputForm";
 
-import { ContainerForm } from "../components/ContainerForm";
-import { Form } from "../components/Form";
-import { TitleForm } from "../components/TitleForm";
+import { api } from "../../../services/api";
+
+import { TYPE_FORM } from "../../../utils/constants";
+
 import type { ForgetFormProps } from "./types";
 
 export function ForgetForm({ setChangeTypeForm }: ForgetFormProps) {
@@ -46,31 +47,26 @@ export function ForgetForm({ setChangeTypeForm }: ForgetFormProps) {
   }
 
   return (
-    <ContainerForm>
-      <Form onSubmit={handleSubmit(onSubmit)} gap={6}>
-        <TitleForm
-          title="Recupere sua senha tranquilamente"
-          subtitle="Não se preocupe"
-        />
-        <InputForm
-          control={control}
-          name="email"
-          label="E-mail"
-          placeholder="exemplo@gmail.com"
-          type="email"
-          error={errors?.email?.message}
-        />
-        <Button type="submit" label="Enviar" disabled={isLoading} />
-      </Form>
-      <span className="font-medium">
-        Já tenho uma conta
-        <a
-          className="cursor-pointer text-green-500 ml-1 mt-10"
-          onClick={() => setChangeTypeForm("login")}
-        >
-          Faça login
-        </a>
-      </span>
-    </ContainerForm>
+    <Form.Wrapper onSubmit={handleSubmit(onSubmit)} gap={6}>
+      <Form.Title
+        title="Recupere sua senha tranquilamente"
+        subtitle="Não se preocupe"
+      />
+      <InputForm
+        control={control}
+        name="email"
+        label="E-mail"
+        placeholder="exemplo@gmail.com"
+        type="email"
+        error={errors?.email?.message}
+      />
+      <Button type="submit" label="Enviar" disabled={isLoading} />
+      <Form.Footer
+        setChangeTypeForm={setChangeTypeForm}
+        text="Já tenho uma conta"
+        textLink="Faça login"
+        formType={TYPE_FORM.LOGIN}
+      />
+    </Form.Wrapper>
   );
 }

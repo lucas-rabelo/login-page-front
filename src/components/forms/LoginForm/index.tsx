@@ -17,9 +17,7 @@ import { CheckboxForm } from "../components/CheckboxForm";
 import { InputForm } from "../components/InputForm";
 
 import { API_GOOGLE_AUTH_URL, TYPE_FORM } from "../../../utils/constants";
-import { ContainerForm } from "../components/ContainerForm";
 import { Form } from "../components/Form";
-import { TitleForm } from "../components/TitleForm";
 import type { LoginFormProps } from "./types";
 
 export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
@@ -102,62 +100,57 @@ export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
   }, [token]);
 
   return (
-    <ContainerForm>
-      <Form onSubmit={handleSubmit(onSubmit)} gap={6}>
-        <TitleForm
-          title="Faça login na sua conta"
-          subtitle="Bem vindo de volta"
-        />
-        <InputForm
+    <Form.Wrapper onSubmit={handleSubmit(onSubmit)} gap={6}>
+      <Form.Title
+        title="Faça login na sua conta"
+        subtitle="Bem vindo de volta"
+      />
+      <InputForm
+        control={control}
+        name="email"
+        type="email"
+        placeholder="exemplo@gmail.com"
+        label="E-mail"
+        error={errors?.email?.message}
+      />
+      <InputForm
+        name="password"
+        control={control}
+        type={showPassword ? "text" : "password"}
+        label="Senha"
+        placeholder="Senha"
+        error={errors?.password?.message}
+        isPasswordInput
+      >
+        <ButtonInput actionValue={showPassword} setAction={setShowPassword} />
+      </InputForm>
+      <div className="flex items-center justify-between">
+        <CheckboxForm
           control={control}
-          name="email"
-          type="email"
-          placeholder="exemplo@gmail.com"
-          label="E-mail"
-          error={errors?.email?.message}
+          name="rememberMe"
+          label="Lembre de mim"
         />
-        <InputForm
-          name="password"
-          control={control}
-          type={showPassword ? "text" : "password"}
-          label="Senha"
-          placeholder="Senha"
-          error={errors?.password?.message}
-          isPasswordInput
-        >
-          <ButtonInput actionValue={showPassword} setAction={setShowPassword} />
-        </InputForm>
-        <div className="flex items-center justify-between">
-          <CheckboxForm
-            control={control}
-            name="rememberMe"
-            label="Lembre de mim"
-          />
-          <a
-            className="cursor-pointer font-normal text-green-500"
-            onClick={() => setChangeTypeForm("forget")}
-          >
-            Esqueceu a senha?
-          </a>
-        </div>
-        <Button type="submit" label="Entrar na conta" disabled={isLoading} />
-        <Button
-          onClick={handleSignWithGoogle}
-          label="Ou faça login com o Google"
-          isGoogleButton
-          variant="google"
-        />
-      </Form>
-
-      <span className="font-medium mt-6">
-        Não tem uma conta?
         <a
-          className="cursor-pointer text-green-500 ml-1"
-          onClick={() => setChangeTypeForm(TYPE_FORM.REGISTER)}
+          className="cursor-pointer font-normal text-green-500"
+          onClick={() => setChangeTypeForm("forget")}
         >
-          Cadastre-se
+          Esqueceu a senha?
         </a>
-      </span>
-    </ContainerForm>
+      </div>
+      <Button type="submit" label="Entrar na conta" disabled={isLoading} />
+      <Button
+        onClick={handleSignWithGoogle}
+        label="Ou faça login com o Google"
+        isGoogleButton
+        variant="google"
+      />
+      <Form.Footer
+        setChangeTypeForm={setChangeTypeForm}
+        text="Não tem uma conta?"
+        textLink="Cadastre-se"
+        formType={TYPE_FORM.REGISTER}
+        marginTop={4}
+      />
+    </Form.Wrapper>
   );
 }

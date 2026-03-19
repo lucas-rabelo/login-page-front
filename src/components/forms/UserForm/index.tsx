@@ -1,31 +1,32 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FormEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useMutation, useQuery } from "@tanstack/react-query";
+
+import { Button } from "../../Button";
+import { ButtonInput } from "../components/ButtonInput";
+import { InputForm } from "../components/InputForm";
+import { SelectForm } from "../components/SelectForm";
+import { Form } from "../components/Form";
+
 import {
   RegisterFormSchema,
   registerFormZodSchema,
 } from "../../../schemas/RegisterFormSchema";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
 import { queryClient } from "../../../services/query-client";
+
 import {
   createUser,
   editUser,
   updateUser,
 } from "../../../services/user.service";
-import type { CreateUserDto, UpdateUserDto } from "../../../types/user";
-import { ButtonInput } from "../components/ButtonInput";
-import { InputForm } from "../components/InputForm";
-import { RowForm } from "../components/RowForm";
-import { SelectForm } from "../components/SelectForm";
 
-import { Button } from "../../Button";
+import type { CreateUserDto, UpdateUserDto } from "../../../types/user";
+
 import type { UserFormProps } from "./types";
 
-const ROLE_OPTIONS = [
-  { label: "Admin", value: "admin" },
-  { label: "User", value: "user" },
-];
+import { ROLE_OPTIONS } from "../../../utils/constants";
 
 export function UserForm({ userUuid, onCancel }: UserFormProps) {
   const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -93,93 +94,86 @@ export function UserForm({ userUuid, onCancel }: UserFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit(onFinish)}>
-      <div className="flex flex-col gap-3">
-        <RowForm>
-          <InputForm
-            name="name"
-            control={control}
-            error={errors?.name?.message}
-            type="text"
-            placeholder="Nome Completo"
-            label="Nome"
+    <Form.Wrapper onSubmit={handleSubmit(onFinish)} gap={3}>
+      <Form.Row>
+        <InputForm
+          name="name"
+          control={control}
+          error={errors?.name?.message}
+          type="text"
+          placeholder="Nome Completo"
+          label="Nome"
+        />
+        <InputForm
+          name="email"
+          control={control}
+          error={errors?.email?.message}
+          type="email"
+          placeholder="exemplo@gmail.com"
+          label="E-mail"
+        />
+      </Form.Row>
+      <Form.Row>
+        <InputForm
+          name="birthDate"
+          control={control}
+          error={errors?.birthDate?.message}
+          type="date"
+          placeholder="12/01/1997"
+          label="Data de nascimento"
+        />
+        <SelectForm
+          name="role"
+          control={control}
+          error={errors?.role?.message}
+          label="Tipo de usuário"
+          options={ROLE_OPTIONS}
+        />
+      </Form.Row>
+      <Form.Row>
+        <InputForm
+          name="password"
+          control={control}
+          type={showPassword ? "text" : "password"}
+          label="Senha"
+          placeholder="Senha"
+          error={errors?.password?.message}
+          isPasswordInput
+        >
+          <ButtonInput actionValue={showPassword} setAction={setShowPassword} />
+        </InputForm>
+        <InputForm
+          name="confirmedPassword"
+          control={control}
+          type={showPassword ? "text" : "password"}
+          label="Confirme a senha"
+          placeholder="Confirme a senha"
+          error={errors?.confirmedPassword?.message}
+          isPasswordInput
+        >
+          <ButtonInput
+            actionValue={showConfirmedPassword}
+            setAction={setShowConfirmedPassword}
           />
-          <InputForm
-            name="email"
-            control={control}
-            error={errors?.email?.message}
-            type="email"
-            placeholder="exemplo@gmail.com"
-            label="E-mail"
+        </InputForm>
+      </Form.Row>
+      <div className="w-full flex justify-end mt-4">
+        <div className="flex items-center gap-4 w-1/2">
+          <Button
+            label="Cancelar"
+            textColor="black"
+            padding="medium"
+            onClick={handleCancel}
+            disabled={isLoading}
           />
-        </RowForm>
-        <RowForm>
-          <InputForm
-            name="birthDate"
-            control={control}
-            error={errors?.birthDate?.message}
-            type="date"
-            placeholder="12/01/1997"
-            label="Data de nascimento"
+          <Button
+            type="submit"
+            label="Salvar"
+            padding="medium"
+            disabled={isLoading}
           />
-          <SelectForm
-            name="role"
-            control={control}
-            error={errors?.role?.message}
-            label="Tipo de usuário"
-            options={ROLE_OPTIONS}
-          />
-        </RowForm>
-
-        <RowForm>
-          <InputForm
-            name="password"
-            control={control}
-            type={showPassword ? "text" : "password"}
-            label="Senha"
-            placeholder="Senha"
-            error={errors?.password?.message}
-            isPasswordInput
-          >
-            <ButtonInput
-              actionValue={showPassword}
-              setAction={setShowPassword}
-            />
-          </InputForm>
-          <InputForm
-            name="confirmedPassword"
-            control={control}
-            type={showPassword ? "text" : "password"}
-            label="Confirme a senha"
-            placeholder="Confirme a senha"
-            error={errors?.confirmedPassword?.message}
-            isPasswordInput
-          >
-            <ButtonInput
-              actionValue={showConfirmedPassword}
-              setAction={setShowConfirmedPassword}
-            />
-          </InputForm>
-        </RowForm>
-
-        <div className="w-full flex justify-end mt-4">
-          <div className="flex items-center gap-4 w-1/2">
-            <Button
-              label="Cancelar"
-              textColor="black"
-              padding="medium"
-              onClick={handleCancel}
-              disabled={isLoading}
-            />
-            <Button
-              type="submit"
-              label="Salvar"
-              padding="medium"
-              disabled={isLoading}
-            />
-          </div>
         </div>
       </div>
-    </form>
+    </Form.Wrapper>
   );
 }

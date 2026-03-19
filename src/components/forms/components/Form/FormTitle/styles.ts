@@ -1,6 +1,6 @@
 import { tv } from "tailwind-variants";
 
-export const titleForm = tv({
+export const formTitle = tv({
   slots: {
     container: "flex flex-col gap-1",
     subtitle: "font-medium text-xl",
