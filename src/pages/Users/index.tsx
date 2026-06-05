@@ -1,24 +1,26 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 
-import { Header } from "../../components/layout/Header";
 import { Content } from "../../components/layout/Content";
 import { Footer } from "../../components/layout/Footer";
+import { Header } from "../../components/layout/Header";
 import { UserList } from "../../components/tables/UserList";
 
-import { deleteUser, listUser } from "../../services/user.service";
-import { Drawer } from "../../components/Drawer";
 import { UserForm } from "../../components/forms/UserForm";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { queryClient } from "../../services/query-client";
 import { Unauthorized } from "../../components/layout/Unauthorized";
+import { Drawer } from "../../components/ui/Drawer";
+import { useDrawer } from "../../components/ui/Drawer/hooks/useDrawer";
+import { queryClient } from "../../services/query-client";
+import { deleteUser, listUser } from "../../services/user.service";
 
 export function Users() {
     const token = window.localStorage.getItem("token");
 
-    const [drawerState, setDrawerState] = useState<boolean>(false);
+    const { drawerState, handleCloseDrawer, handleOpenDrawer } = useDrawer();
+
     const [userSelected, setUserSelect] = useState<string>("");
 
-    const { data: users, status } = useQuery({ 
+    const { data: userResponse, status } = useQuery({ 
         queryKey: ['users'], 
         queryFn: async () => await listUser(token),
         enabled: !!token 
@@ -39,33 +41,29 @@ export function Users() {
         setUserSelect(oldState => oldState === uuid ? "": uuid);
     }
     
-    function handleCloseDrawer() {
-        if(userSelected !== "") {
-            setUserSelect("");
-        } else {
-            setDrawerState(false);
-        }
-    }
-
     useEffect(() => {
         if(userSelected !== "") {
-            setDrawerState(true);
+            handleOpenDrawer();
         } else {
-            setDrawerState(false);
+            handleCloseDrawer();
         }
     }, [userSelected]);
+
+    console.log(userResponse);
 
     return(
         <div className="flex flex-1 flex-col w-full h-auto bg-green-100">
             <Header />
             {status === 'success' ? 
                 <Content>
-                    {users && <UserList 
-                        data={users} 
-                        onDelete={deleteUserByUuid}
-                        onEdit={editUserByUuid}
-                        onCreateNew={() => setDrawerState(true)}
-                    />}
+                    {userResponse && userResponse.data.length ? (
+                        <UserList 
+                            data={userResponse.data} 
+                            onDelete={deleteUserByUuid}
+                            onEdit={editUserByUuid}
+                            onCreateNew={() => handleOpenDrawer()}
+                        />
+                    ) : null}
                 </Content>
                 :
                 <Content>
@@ -74,9 +72,9 @@ export function Users() {
             }
             <Footer />
 
-            <Drawer 
-                title={userSelected ? "Atualizar usuário" : "Cadastrar usuário"}
+            <Drawer
                 isOpen={drawerState}
+                title={userSelected ? "Atualizar usuário" : "Cadastrar usuário"}
                 onClose={handleCloseDrawer}
             >
                 <UserForm

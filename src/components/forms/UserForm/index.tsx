@@ -161,7 +161,7 @@ export function UserForm({ userUuid, onCancel }: UserFormProps) {
         <div className="flex items-center gap-4 w-1/2">
           <Button
             label="Cancelar"
-            textColor="black"
+            textColor="white"
             padding="medium"
             onClick={handleCancel}
             disabled={isLoading}
