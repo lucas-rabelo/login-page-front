@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Button } from "../../Button";
+import { Button } from "../../ui/Button";
 
 import {
   LoginFormSchema,

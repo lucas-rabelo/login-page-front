@@ -2,8 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { Button } from "../../Button";
-import { Form } from "../components/Form";
+import { Button } from "../../ui/Button";
+import { Form } from "../../ui/Form";
 import { InputForm } from "../components/InputForm";
 
 import {

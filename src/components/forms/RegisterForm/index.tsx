@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../Button";
 import { ButtonInput } from "../components/ButtonInput";
 import { InputForm } from "../components/InputForm";
-import { Form } from "../components/Form";
+import { Form } from "../../ui/Form";
 
 import {
   RegisterFormSchema,

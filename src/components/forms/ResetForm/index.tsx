@@ -3,7 +3,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { Button } from "../../Button";
+import { Button } from "../../ui/Button";
 import { ButtonInput } from "../components/ButtonInput";
 import { Form } from "../components/Form";
 import { InputForm } from "../components/InputForm";

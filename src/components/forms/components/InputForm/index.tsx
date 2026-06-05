@@ -2,10 +2,10 @@ import {
   Controller,
   FieldValues
 } from "react-hook-form";
-import { ContainerField } from "../ContainerField";
-import { Error } from "../Error";
-import { Input } from "../Input";
-import { Label } from "../Label";
+import { Field } from "../../../ui/Field";
+import { Error } from "../../../ui/Error";
+import { Input } from "../../../ui/Input";
+import { Label } from "../../../ui/Label";
 
 import type { InputFormProps } from "./types";
 
@@ -19,7 +19,7 @@ export function InputForm<T extends FieldValues>({
   ...props
 }: InputFormProps<T>) {
   return (
-    <ContainerField hasButton={isPasswordInput}>
+    <Field hasButton={isPasswordInput}>
       <Label label={label} />
       <Controller
         name={name}
@@ -34,7 +34,7 @@ export function InputForm<T extends FieldValues>({
       />
       {children}
       <Error error={error} />
-    </ContainerField>
+    </Field>
   );
 }
 
