@@ -108,7 +108,6 @@ export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
       <InputForm
         control={control}
         name="email"
-        type="email"
         placeholder="exemplo@gmail.com"
         label="E-mail"
         error={errors?.email?.message}
@@ -122,7 +121,7 @@ export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
         error={errors?.password?.message}
         isPasswordInput
       >
-        <ButtonInput actionValue={showPassword} setAction={setShowPassword} />
+        <ButtonInput aria-label="Mostrar senha" actionValue={showPassword} setAction={setShowPassword} />
       </InputForm>
       <div className="flex items-center justify-between">
         <CheckboxForm
