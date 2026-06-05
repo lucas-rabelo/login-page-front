@@ -1,4 +1,4 @@
-import type { Option } from "../../../../types/select";
+import type { Option } from "../../../types/select";
 
 import type { SelectProps } from "./types";
 
@@ -11,7 +11,9 @@ export function Select({ options, ...props }: SelectProps) {
       {...props}
     >
       {optionsForSelect.map((option) => (
-        <option value={option.value}>{option.label}</option>
+        <option key={option.value} value={option.value}>
+          {option.label}
+        </option>
       ))}
     </select>
   );

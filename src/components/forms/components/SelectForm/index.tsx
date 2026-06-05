@@ -1,8 +1,8 @@
 import { Controller, FieldValues } from "react-hook-form";
-import { ContainerField } from "../ContainerField";
-import { Error } from "../Error";
-import { Label } from "../Label";
-import { Select } from "../Select";
+import { Field } from "../../../ui/Field";
+import { Error } from "../../../ui/Error";
+import { Label } from "../../../ui/Label";
+import { Select } from "../../../ui/Select";
 
 import type { SelectFormProps } from "./types";
 
@@ -14,7 +14,7 @@ export function SelectForm<T extends FieldValues>({
   options,
 }: SelectFormProps<T>) {
   return (
-    <ContainerField>
+    <Field>
       <Label label={label} />
       <Controller
         name={name}
@@ -24,7 +24,7 @@ export function SelectForm<T extends FieldValues>({
         )}
       />
       <Error error={error} />
-    </ContainerField>
+    </Field>
   );
 }
 

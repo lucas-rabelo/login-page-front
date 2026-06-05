@@ -1,7 +1,7 @@
 import { Pencil, Trash } from "@phosphor-icons/react";
 
-import { PageHeader } from "../../PageHeader";
 import type { UserListProps } from "./types";
+import { PageHeader } from "../../layout/PageHeader";
 
 export function UserList({
   data,

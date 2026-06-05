@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
-import { Button } from "../../Button";
+import { Button } from "../../ui/Button";
 
 import {
   LoginFormSchema,
@@ -17,7 +17,7 @@ import { CheckboxForm } from "../components/CheckboxForm";
 import { InputForm } from "../components/InputForm";
 
 import { API_GOOGLE_AUTH_URL, TYPE_FORM } from "../../../utils/constants";
-import { Form } from "../components/Form";
+import { Form } from "../../ui/Form";
 import type { LoginFormProps } from "./types";
 
 export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
@@ -100,7 +100,7 @@ export function LoginForm({ setChangeTypeForm }: LoginFormProps) {
   }, [token]);
 
   return (
-    <Form.Wrapper onSubmit={handleSubmit(onSubmit)} gap={6}>
+    <Form.Wrapper isSmallContainer={true} onSubmit={handleSubmit(onSubmit)} gap={6}>
       <Form.Title
         title="Faça login na sua conta"
         subtitle="Bem vindo de volta"

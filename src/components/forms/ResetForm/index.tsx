@@ -3,9 +3,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { Button } from "../../Button";
+import { Button } from "../../ui/Button";
 import { ButtonInput } from "../components/ButtonInput";
-import { Form } from "../components/Form";
+import { Form } from "../../ui/Form";
 import { InputForm } from "../components/InputForm";
 
 import {
@@ -59,7 +59,7 @@ export function ResetForm({ token, setChangeTypeForm }: ResetFormProps) {
   }
 
   return (
-    <Form.Wrapper onSubmit={handleSubmit(onSubmit)} gap={6}>
+    <Form.Wrapper isSmallContainer={true} onSubmit={handleSubmit(onSubmit)} gap={6}>
       <Form.Title
         title="Mude sua senha para poder acessar o aplicativo"
         subtitle="Mudar senha"

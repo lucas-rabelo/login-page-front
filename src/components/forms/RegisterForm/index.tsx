@@ -3,10 +3,10 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 
-import { Button } from "../../Button";
+import { Button } from "../../ui/Button";
 import { ButtonInput } from "../components/ButtonInput";
 import { InputForm } from "../components/InputForm";
-import { Form } from "../components/Form";
+import { Form } from "../../ui/Form";
 
 import {
   RegisterFormSchema,
@@ -75,7 +75,7 @@ export function RegisterForm({ setChangeTypeForm }: RegisterFormProps) {
   }
 
   return (
-    <Form.Wrapper onSubmit={handleSubmit(onSubmit)} gap={4}>
+    <Form.Wrapper isSmallContainer={true} onSubmit={handleSubmit(onSubmit)} gap={4}>
       <Form.Title title="Crie sua conta gratuitamente!" subtitle="Bem vindo" />
       <Form.Row>
         <InputForm

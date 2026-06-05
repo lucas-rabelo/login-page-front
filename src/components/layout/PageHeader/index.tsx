@@ -1,4 +1,4 @@
-import { Button } from "../Button";
+import { Button } from "../../ui/Button";
 import { pageHeader } from "./styles";
 import type { PageHeaderProps } from "./types";
 
@@ -8,7 +8,6 @@ export function PageHeader({ onCreateNew }: PageHeaderProps) {
       <Button
         label="Novo usuário"
         size="contain"
-        padding="medium"
         onClick={onCreateNew}
       />
     </div>

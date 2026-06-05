@@ -15,3 +15,8 @@ export type ReadUserDto = Partial<CreateUserDto> & {
     createdAt: string;
     updatedAt: string;
 }
+
+export type ListUserDto = {
+    data: ReadUserDto[];
+    total: number;
+}

@@ -3,11 +3,11 @@ import { FormEvent, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useMutation, useQuery } from "@tanstack/react-query";
 
-import { Button } from "../../Button";
+import { Button } from "../../ui/Button";
 import { ButtonInput } from "../components/ButtonInput";
 import { InputForm } from "../components/InputForm";
 import { SelectForm } from "../components/SelectForm";
-import { Form } from "../components/Form";
+import { Form } from "../../ui/Form";
 
 import {
   RegisterFormSchema,
@@ -161,7 +161,7 @@ export function UserForm({ userUuid, onCancel }: UserFormProps) {
         <div className="flex items-center gap-4 w-1/2">
           <Button
             label="Cancelar"
-            textColor="black"
+            textColor="white"
             padding="medium"
             onClick={handleCancel}
             disabled={isLoading}

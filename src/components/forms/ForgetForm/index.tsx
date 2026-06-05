@@ -2,8 +2,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { Button } from "../../Button";
-import { Form } from "../components/Form";
+import { Button } from "../../ui/Button";
+import { Form } from "../../ui/Form";
 import { InputForm } from "../components/InputForm";
 
 import {
@@ -47,7 +47,7 @@ export function ForgetForm({ setChangeTypeForm }: ForgetFormProps) {
   }
 
   return (
-    <Form.Wrapper onSubmit={handleSubmit(onSubmit)} gap={6}>
+    <Form.Wrapper isSmallContainer={true} onSubmit={handleSubmit(onSubmit)} gap={6}>
       <Form.Title
         title="Recupere sua senha tranquilamente"
         subtitle="Não se preocupe"

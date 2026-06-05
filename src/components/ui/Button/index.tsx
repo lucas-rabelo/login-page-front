@@ -1,5 +1,5 @@
 import { SpinnerGap } from "@phosphor-icons/react";
-import GoogleIcon from "../../assets/google.svg";
+import GoogleIcon from "../../../assets/google.svg";
 import { button } from "./styles";
 import type { ButtonProps } from "./types";
 
