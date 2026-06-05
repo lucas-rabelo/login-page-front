@@ -47,7 +47,7 @@ export function ForgetForm({ setChangeTypeForm }: ForgetFormProps) {
   }
 
   return (
-    <Form.Wrapper isSmallContainer={true} isSmallContainer={true} onSubmit={handleSubmit(onSubmit)} gap={6}>
+    <Form.Wrapper isSmallContainer={true} onSubmit={handleSubmit(onSubmit)} gap={6}>
       <Form.Title
         title="Recupere sua senha tranquilamente"
         subtitle="Não se preocupe"
