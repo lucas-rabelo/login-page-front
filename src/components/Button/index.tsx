@@ -16,6 +16,7 @@ export function Button({
   return (
     <button
       className={button({ variant, padding, disabled, textColor, size })}
+      disabled={disabled}
       {...rest}
     >
       {disabled ? <SpinnerGap className="animate-spin" size={24} /> : null}
