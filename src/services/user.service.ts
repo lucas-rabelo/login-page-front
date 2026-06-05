@@ -1,11 +1,11 @@
-import type { CreateUserDto, ReadUserDto, UpdateUserDto } from '../types/user';
+import type { CreateUserDto, ListUserDto, ReadUserDto, UpdateUserDto } from '../types/user';
 import { api } from './api';
 
 
 export async function listUser(token: string | null) {
     try {
         api.defaults.headers.authorization = `Bearer ${token}`;
-        const { data } = await api.get<ReadUserDto[]>("/users");
+        const { data } = await api.get<ListUserDto>("v1/users");
         if (data) {
             return data;
         }
@@ -16,7 +16,7 @@ export async function listUser(token: string | null) {
 
 export async function deleteUser(uuid: string) {
     try {
-        const { data } = await api.delete(`/users/${uuid}`);
+        const { data } = await api.delete(`v1/users/${uuid}`);
         if (data) {
             return data;
         }
@@ -27,7 +27,7 @@ export async function deleteUser(uuid: string) {
 
 export async function createUser(createUserDto: CreateUserDto) {
     try {
-        const { data } = await api.post(`/users`, createUserDto);
+        const { data } = await api.post(`v1/users`, createUserDto);
         if (data) {
             return data;
         }
@@ -38,7 +38,7 @@ export async function createUser(createUserDto: CreateUserDto) {
 
 export async function updateUser(updateUserDto: UpdateUserDto) {
     try {
-        const { data } = await api.put(`/users`, updateUserDto);
+        const { data } = await api.put(`v1/users`, updateUserDto);
         if (data) {
             return data;
         }
@@ -49,7 +49,7 @@ export async function updateUser(updateUserDto: UpdateUserDto) {
 
 export async function editUser(uuid: string) {
     try {
-        const { data } = await api.get<ReadUserDto>(`/users/${uuid}`);
+        const { data } = await api.get<ReadUserDto>(`v1/users/${uuid}`);
         if (data) {
             return data;
         }
